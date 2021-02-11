@@ -6,15 +6,19 @@
 //  Copyright © 2021 idea. All rights reserved.
 //
 
+import AVFoundation
 import UIKit
 
 class ViewController: UIViewController {
+    
+    // 音楽鳴らす用のインスタンスを複数生成
+    var player:AVAudioPlayer!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-
-
+        
+        func tapBtn() {
+                if let sound = NSDataAsset(name: "Good_Morning") {
+                    player = try? AVAudioPlayer(data: sound.data)
+                    player?.play() // → これで音が鳴る
+                }
+            }
 }
-
