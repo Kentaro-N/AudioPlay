@@ -12,13 +12,29 @@ import UIKit
 class ViewController: UIViewController {
     
     // 音楽鳴らす用のインスタンスを複数生成
-    var player:AVAudioPlayer!
+    var audioPlayer: AVAudioPlayer!
 
-        
-        func tapBtn() {
-                if let sound = NSDataAsset(name: "Good_Morning") {
-                    player = try? AVAudioPlayer(data: sound.data)
-                    player?.play() // → これで音が鳴る
+    override func viewDidLoad() {
+         super.viewDidLoad()
+                // 音楽を流し始める
+                playSound(name: "Good_Morning")
+            }
+        }
+        // 以下、コピペ
+        extension ViewController: AVAudioPlayerDelegate {
+            func playSound(name: String) {
+                guard let path = Bundle.main.path(forResource: name, ofType: "mp3") else {
+                    print("音源ファイルが見つかりません")
+                    return
+                }
+                do {
+                    // AVAudioPlayerのインスタンス化
+                    audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: path))
+                    // AVAudioPlayerのデリゲートをセット
+                    audioPlayer.delegate = self
+                    // 音声の再生
+                    audioPlayer.play()
+                } catch {
                 }
             }
-}
+        }
